@@ -5,6 +5,8 @@ import com.fc.entity.UsersExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface UsersMapper {
     long countByExample(UsersExample example);
 
@@ -27,4 +29,6 @@ public interface UsersMapper {
     int updateByPrimaryKeySelective(Users record);
 
     int updateByPrimaryKey(Users record);
+
+    Iterable<Users> selectByExample(String username, String userpwd, HttpServletRequest request);
 }
