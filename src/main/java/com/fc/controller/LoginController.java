@@ -1,10 +1,14 @@
 package com.fc.controller;
 
 
+import com.fc.dao.PjclassMapper;
+import com.fc.entity.Pjclass;
 import com.fc.entity.Users;
 import com.fc.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -51,6 +55,51 @@ public class LoginController {
 
         }
         return "redirect:/login";
+    }
+    @GetMapping("/register")
+    private  String register(Model model){
+//        Iterable<Pjclass> list = PjclassMapper.findAll();
+//        model.addAttribute("list",list);
+        return "/student/register";
+    }
+    @PostMapping("/CanRegister")
+    private  String CanRegister(Integer roleid,String username,String userpwd,String truename ,Integer classid ,HttpServletRequest request){
+        System.out.println(roleid+":"+username+":"+userpwd+":"+truename+":"+classid);
+        String wk = "";
+        String cz = "";
+        String cg = "";
+        Users users = new Users();
+        users.setRoleid(roleid);
+        users.setUsername(username);
+        users.setUserpwd(userpwd);
+        users.setTruename(truename);
+        users.setClassid(classid);
+        Users byUsername = loginService.findByUsername(username);
+        System.out.println(byUsername);
+        if (byUsername==null){
+            if(userpwd.equals("")){
+                wk = "密码或密码不能为空！";
+                request.getSession().setAttribute("wk",wk);
+
+            }else {
+                if (truename.equals("")){
+                    wk = "密码或密码不能为空！";
+                    request.getSession().setAttribute("wk",wk);
+                }
+                else {
+                    loginService.save(users);
+
+                    cg = "注册成功，请登陆！";
+                    request.getSession().setAttribute("cg",cg);
+                }
+            }
+        }else {
+            System.out.println("cz");
+            cz = "该用户名以存在！";
+            request.getSession().setAttribute("cz",cz);
+            return "redirect:/register";
+        }
+        return "redirect:/register";
     }
 
 }

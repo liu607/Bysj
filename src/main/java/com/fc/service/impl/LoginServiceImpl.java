@@ -11,4 +11,14 @@ public class LoginServiceImpl  implements LoginService {
         return null;
 
     }
+
+    @Override
+    public Users findByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public void save(Users users) {
+
+    }
 }
