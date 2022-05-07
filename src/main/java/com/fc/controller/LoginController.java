@@ -49,7 +49,7 @@ public class LoginController {
                     return "redirect:/AdminManage";
                 }
             }else {
-                errorInfo = "账号或密码错误";
+                errorInfo = "账号或密码错误1";
                 request.getSession().setAttribute("errorInfo",errorInfo);
             }
 
